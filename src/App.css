@@ -15,7 +15,14 @@ body,
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  height: 70vh;
+}
+
+.control-group {
+  background-color: #aaaaaa55;
+}
+
+.control {
+  margin: 5px;
 }
 
 .userInterface {
