@@ -11,6 +11,10 @@ body,
   padding: 0;
 }
 
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+}
 /* .controls,
 .canvas {
   width: 100%;

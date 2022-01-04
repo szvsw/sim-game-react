@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-export const ControlSlider = ({
+export const ControlDropdown = ({
   state,
   setState,
   setLocalBuildingChange,
@@ -21,15 +21,25 @@ export const ControlSlider = ({
   );
   return (
     <div className="control">
-      <label>{uiConfig.title(parameter)}</label>
-      <input
-        type="number"
+      <label htmlFor={`control-${table}-${parameter}-dropdown`}>
+        {uiConfig.title(parameter)}
+      </label>
+      <select
+        name={`control-${table}-${parameter}-dropdown`}
+        id={`control-${table}-${parameter}-dropdown`}
+        // type="number"
         value={state[table][parameter]}
         onChange={handleParameterChange}
-        min={uiConfig.range[0]}
-        max={uiConfig.range[1]}
-        step={uiConfig.step}
-      />
+      >
+        {uiConfig.options.map((key, index) => (
+          <option
+            key={`control-${table}-${parameter}-option-${index}`}
+            value={index}
+          >
+            {key}
+          </option>
+        ))}
+      </select>
     </div>
   );
 };

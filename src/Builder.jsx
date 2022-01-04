@@ -2,7 +2,7 @@ import { Canvas } from "@react-three/fiber";
 import { Plane, Box, OrbitControls } from "@react-three/drei";
 import { useState, useEffect, useCallback } from "react";
 import * as THREE from "three";
-import { ControlSlider } from "./ControlSlider";
+import { uiMetadata } from "./uiMetadata";
 
 export const Builder = ({ socket }) => {
   const [cost, setCost] = useState(null);
@@ -28,6 +28,19 @@ export const Builder = ({ socket }) => {
       n: 0.9,
       e: 0.3,
       w: 0.5,
+    },
+    envelope: {
+      walls: 0,
+      roofs: 0,
+      floors: 0,
+      tightness: 0,
+    },
+    lighting: {
+      dimming: 0,
+      type: 0,
+    },
+    glazing: {
+      assembly: 0,
     },
   });
 
@@ -92,18 +105,29 @@ export const Builder = ({ socket }) => {
         </h1>
       </div>
       <div className="controls">
-        {Object.entries(building).map(([table, data], i) =>
-          Object.entries(data).map(([parameter, value], i) => (
-            <ControlSlider
-              key={`control-${table}-${parameter}`}
-              table={table}
-              parameter={parameter}
-              state={building}
-              setState={setBuilding}
-              setLocalBuildingChange={setLocalBuildingChange}
-            />
-          ))
-        )}
+        {Object.entries(building).map(([table, data], i) => (
+          <div>
+            <h3>{uiMetadata[table].tableTitle}</h3>
+            {Object.entries(data).map(([parameter, value], i) => {
+              const uiComponent = uiMetadata[table].component
+                ? uiMetadata[table].component
+                : uiMetadata[table][parameter].component;
+              const uiConfig = uiMetadata[table].config
+                ? uiMetadata[table].config
+                : uiMetadata[table][parameter].config;
+              const Component = uiComponent({
+                key: `control-${table}-${parameter}`,
+                table,
+                parameter,
+                state: building,
+                setState: setBuilding,
+                setLocalBuildingChange,
+                uiConfig,
+              });
+              return Component;
+            })}
+          </div>
+        ))}
       </div>
       <button onClick={submitBuildingData}>Submit</button>
       <Canvas
