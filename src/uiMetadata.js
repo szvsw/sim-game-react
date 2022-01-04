@@ -125,7 +125,7 @@ export const uiMetadata = {
       component: ControlDropdown,
       config: {
         title: (param) => `Mass Type`,
-        options: ["Block", "O-Shaped", "U-Shaped", "L-Shaped"],
+        options: ["Block", "O-Shaped"],
       },
     },
     cutoutDepth: {
