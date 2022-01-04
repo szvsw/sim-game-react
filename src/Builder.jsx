@@ -29,6 +29,9 @@ export const Builder = ({ socket }) => {
       e: 0.3,
       w: 0.5,
     },
+    glazing: {
+      assembly: 0,
+    },
     envelope: {
       walls: 0,
       roofs: 0,
@@ -39,8 +42,10 @@ export const Builder = ({ socket }) => {
       dimming: 0,
       type: 0,
     },
-    glazing: {
-      assembly: 0,
+    hvac: {
+      hrv: 0,
+      source: 0,
+      fans: 0,
     },
   });
 
