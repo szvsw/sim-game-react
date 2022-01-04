@@ -9,6 +9,7 @@ export const Builder = ({ socket }) => {
   const [serverIsComputingCost, setServerIsComputingCost] = useState(true);
   const [eui, setEui] = useState("No results calculated yet.");
   const [serverIsComputingEui, setServerIsComputingEui] = useState(false);
+  const [localBuildingChange, setLocalBuildingChange] = useState(false);
   const [building, setBuilding] = useState({
     mass: {
       floors: 4,
@@ -54,10 +55,25 @@ export const Builder = ({ socket }) => {
   // TODO: make sure socket still connected, use cleanup
   useEffect(() => {
     if (socket) {
-      socket.emit("building", building);
+      if (localBuildingChange) socket.emit("building", building);
       setServerIsComputingCost(true);
+      setLocalBuildingChange(false);
     }
-  }, [building, socket, setServerIsComputingCost]);
+  }, [
+    building,
+    socket,
+    localBuildingChange,
+    setLocalBuildingChange,
+    setServerIsComputingCost,
+  ]);
+
+  useEffect(() => {
+    if (socket)
+      socket.on("building", (data) => {
+        console.log(data);
+        setBuilding(data);
+      });
+  }, [socket, setBuilding]);
   return (
     <>
       <div>
@@ -84,6 +100,7 @@ export const Builder = ({ socket }) => {
               parameter={parameter}
               state={building}
               setState={setBuilding}
+              setLocalBuildingChange={setLocalBuildingChange}
             />
           ))
         )}
@@ -93,7 +110,7 @@ export const Builder = ({ socket }) => {
         className="canvas"
         colorManagement
         shadows
-        camera={{ fov: 60, position: [30, 10, 30] }}
+        camera={{ fov: 60, position: [20, 20, -40] }}
       >
         <Building building={building} />
         <SurroundingContext />

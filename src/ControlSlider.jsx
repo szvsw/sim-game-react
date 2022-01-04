@@ -1,5 +1,11 @@
 import { useCallback } from "react";
-export const ControlSlider = ({ state, setState, table, parameter }) => {
+export const ControlSlider = ({
+  state,
+  setState,
+  table,
+  parameter,
+  setLocalBuildingChange,
+}) => {
   const uiMetadata = {
     shading: {
       title: (param) => `${param.toUpperCase()} Shading Depth (m)`,
@@ -42,8 +48,9 @@ export const ControlSlider = ({ state, setState, table, parameter }) => {
         newState[table][parameter] = newValue;
         return newState;
       });
+      setLocalBuildingChange(true);
     },
-    [table, parameter]
+    [table, parameter, setState, setLocalBuildingChange]
   );
   return (
     <div className="control">
@@ -54,7 +61,7 @@ export const ControlSlider = ({ state, setState, table, parameter }) => {
       </label>
       <input
         type="number"
-        defaultValue={state[table][parameter]}
+        value={state[table][parameter]}
         onChange={handleParameterChange}
         min={
           uiMetadata[table].range
