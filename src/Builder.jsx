@@ -94,47 +94,47 @@ export const Builder = ({ socket }) => {
   }, [socket, setBuilding]);
   return (
     <>
-      <div>
-        <h1>COST: {serverIsComputingCost ? "(computing)" : `$${cost}USD`}</h1>
+      <div className="userInterface">
+        <div className="computedValues">
+          <h1>COST: {serverIsComputingCost ? "(computing)" : `$${cost}USD`}</h1>
+          <h1>
+            EUI :{" "}
+            {serverIsComputingEui
+              ? "(computing)"
+              : isNaN(eui)
+              ? "No EUI Calculation yet"
+              : `${eui.toFixed(1)} kWh/m^2/yr (${(eui * 0.31).toFixed(
+                  1
+                )} kBtu/ft^2/yr)`}
+          </h1>
+        </div>
+        <div className="controls">
+          {Object.entries(building).map(([table, data], i) => (
+            <div>
+              <h3>{uiMetadata[table].tableTitle}</h3>
+              {Object.entries(data).map(([parameter, value], i) => {
+                const uiComponent = uiMetadata[table].component
+                  ? uiMetadata[table].component
+                  : uiMetadata[table][parameter].component;
+                const uiConfig = uiMetadata[table].config
+                  ? uiMetadata[table].config
+                  : uiMetadata[table][parameter].config;
+                const Component = uiComponent({
+                  key: `control-${table}-${parameter}`,
+                  table,
+                  parameter,
+                  state: building,
+                  setState: setBuilding,
+                  setLocalBuildingChange,
+                  uiConfig,
+                });
+                return Component;
+              })}
+            </div>
+          ))}
+        </div>
+        <button onClick={submitBuildingData}>Submit</button>
       </div>
-      <div>
-        <h1>
-          EUI :{" "}
-          {serverIsComputingEui
-            ? "(computing)"
-            : isNaN(eui)
-            ? "No EUI Calculation yet"
-            : `${eui.toFixed(1)} kWh/m^2/yr (${(eui * 0.31).toFixed(
-                1
-              )} kBtu/ft^2/yr)`}
-        </h1>
-      </div>
-      <div className="controls">
-        {Object.entries(building).map(([table, data], i) => (
-          <div>
-            <h3>{uiMetadata[table].tableTitle}</h3>
-            {Object.entries(data).map(([parameter, value], i) => {
-              const uiComponent = uiMetadata[table].component
-                ? uiMetadata[table].component
-                : uiMetadata[table][parameter].component;
-              const uiConfig = uiMetadata[table].config
-                ? uiMetadata[table].config
-                : uiMetadata[table][parameter].config;
-              const Component = uiComponent({
-                key: `control-${table}-${parameter}`,
-                table,
-                parameter,
-                state: building,
-                setState: setBuilding,
-                setLocalBuildingChange,
-                uiConfig,
-              });
-              return Component;
-            })}
-          </div>
-        ))}
-      </div>
-      <button onClick={submitBuildingData}>Submit</button>
       <Canvas
         className="canvas"
         colorManagement

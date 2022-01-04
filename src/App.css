@@ -13,16 +13,12 @@ body,
 
 .controls {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
+  height: 70vh;
 }
-/* .controls,
-.canvas {
-  width: 100%;
-  height: 100%;
+
+.userInterface {
   position: absolute;
-  top: 0;
-  left: 0;
+  z-index: 2;
 }
-.controls {
-  z-index: 10;
-} */
