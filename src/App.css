@@ -30,3 +30,8 @@ body,
 .control {
   margin: 5px;
 }
+
+.slider {
+  display: flex;
+  align-items: center;
+}

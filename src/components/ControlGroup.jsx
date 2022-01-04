@@ -34,8 +34,8 @@ export const ControlGroup = ({
                 key={`control-${table}-${parameter}`}
                 table={table}
                 parameter={parameter}
-                state={building}
-                setState={setBuilding}
+                building={building}
+                setBuilding={setBuilding}
                 setLocalBuildingChange={setLocalBuildingChange}
                 uiConfig={uiConfig}
               />

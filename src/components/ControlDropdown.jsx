@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 export const ControlDropdown = ({
-  state,
-  setState,
+  building,
+  setBuilding,
   setLocalBuildingChange,
   table,
   parameter,
@@ -10,14 +10,14 @@ export const ControlDropdown = ({
   const handleParameterChange = useCallback(
     (e) => {
       const newValue = Number(e.target.value);
-      setState((oldState) => {
-        const newState = { ...oldState };
-        newState[table][parameter] = newValue;
-        return newState;
+      setBuilding((oldBuilding) => {
+        const newBuilding = { ...oldBuilding };
+        newBuilding[table][parameter] = newValue;
+        return newBuilding;
       });
       setLocalBuildingChange(true);
     },
-    [table, parameter, setState, setLocalBuildingChange]
+    [table, parameter, setBuilding, setLocalBuildingChange]
   );
   return (
     <div className="control">
@@ -28,7 +28,7 @@ export const ControlDropdown = ({
         name={`control-${table}-${parameter}-dropdown`}
         id={`control-${table}-${parameter}-dropdown`}
         // type="number"
-        value={state[table][parameter]}
+        value={building[table][parameter]}
         onChange={handleParameterChange}
       >
         {uiConfig.options.map((key, index) => (

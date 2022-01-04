@@ -105,8 +105,9 @@ export const uiMetadata = {
     tableTitle: "Shading",
     component: ControlSlider,
     config: {
-      title: (param) => `${param.toUpperCase()} Shading Depth (m)`,
-      range: [0, 3],
+      title: (param, value) =>
+        `${param.toUpperCase()} Shading Depth: ${value.toFixed(2)}m `,
+      range: [0, 1.5],
       step: 0.01,
     },
   },
@@ -114,7 +115,8 @@ export const uiMetadata = {
     tableTitle: "Window-to-Wall Ratios",
     component: ControlSlider,
     config: {
-      title: (param) => `${param.toUpperCase()} Facade (%)`,
+      title: (param, value) =>
+        `${param.toUpperCase()} Facade: ${(value * 100).toFixed(0)}%`,
       range: [0, 1],
       step: 0.01,
     },
@@ -131,7 +133,7 @@ export const uiMetadata = {
     cutoutDepth: {
       component: ControlSlider,
       config: {
-        title: (param) => `Cutout Depth`,
+        title: (param, value) => `Cutout Depth: ${(value * 100).toFixed(0)}%`,
         range: [0, 1],
         step: [0.01],
       },
@@ -140,7 +142,7 @@ export const uiMetadata = {
     cutoutWidth: {
       component: ControlSlider,
       config: {
-        title: (param) => `Cutout Width`,
+        title: (param, value) => `Cutout Width: ${(value * 100).toFixed(0)}%`,
         range: [0, 1],
         step: [0.01],
       },
@@ -149,7 +151,7 @@ export const uiMetadata = {
     floors: {
       component: ControlSlider,
       config: {
-        title: (param) => `Floors (#)`,
+        title: (param, value) => `Floors: ${value.toFixed(0)}`,
         range: [1, 25],
         step: 1,
       },
@@ -157,24 +159,24 @@ export const uiMetadata = {
     floorHeight: {
       component: ControlSlider,
       config: {
-        title: (param) => `Floor Height (m)`,
-        range: [0, 3],
+        title: (param, value) => `Floor Height: ${value.toFixed(1)}m`,
+        range: [2.5, 5],
         step: 0.01,
       },
     },
     width: {
       component: ControlSlider,
       config: {
-        title: (param) => `Width (m)`,
-        range: [0, 3],
+        title: (param, value) => `Width: ${value.toFixed(1)}m`,
+        range: [3, 50],
         step: 0.01,
       },
     },
     depth: {
       component: ControlSlider,
       config: {
-        title: (param) => `Depth (m)`,
-        range: [0, 3],
+        title: (param, value) => `Depth: ${value.toFixed(1)}m`,
+        range: [3, 50],
         step: 0.01,
       },
     },

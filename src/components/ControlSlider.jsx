@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 export const ControlSlider = ({
-  state,
-  setState,
+  building,
+  setBuilding,
   setLocalBuildingChange,
   table,
   parameter,
@@ -10,21 +10,23 @@ export const ControlSlider = ({
   const handleParameterChange = useCallback(
     (e) => {
       const newValue = Number(e.target.value);
-      setState((oldState) => {
-        const newState = { ...oldState };
-        newState[table][parameter] = newValue;
-        return newState;
+      setBuilding((oldBuilding) => {
+        const newBuilding = { ...oldBuilding };
+        newBuilding[table][parameter] = newValue;
+        return newBuilding;
       });
       setLocalBuildingChange(true);
     },
-    [table, parameter, setState, setLocalBuildingChange]
+    [table, parameter, setBuilding, setLocalBuildingChange]
   );
+
+  const value = building[table][parameter];
   return (
-    <div className="control">
-      <label>{uiConfig.title(parameter)}</label>
+    <div className="control slider">
+      <label>{uiConfig.title(parameter, value)}</label>
       <input
-        type="number"
-        value={state[table][parameter]}
+        type="range"
+        value={value}
         onChange={handleParameterChange}
         min={uiConfig.range[0]}
         max={uiConfig.range[1]}
