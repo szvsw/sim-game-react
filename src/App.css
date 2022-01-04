@@ -8,13 +8,19 @@ body,
   width: 100%;
   height: 100%;
   margin: auto;
-  padding: 0;
+}
+
+.userInterface {
+  position: absolute;
+  z-index: 2;
+  padding: 20px;
 }
 
 .controls-form {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+  width: 30vw;
 }
 
 .control-group {
@@ -23,9 +29,4 @@ body,
 
 .control {
   margin: 5px;
-}
-
-.userInterface {
-  position: absolute;
-  z-index: 2;
 }
