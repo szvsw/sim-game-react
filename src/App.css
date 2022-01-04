@@ -11,7 +11,7 @@ body,
   padding: 0;
 }
 
-.controls {
+.controls-form {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;

@@ -1,6 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import { useState, useEffect, useCallback } from "react";
-import { uiMetadata } from "../uiMetadata";
+import { ControlsForm } from "./ControlsForm";
 import { BuildingBasic } from "./BuildingBasic";
 import { BuildingOShape } from "./BuildingOShape";
 import { SurroundingContext } from "./SurroundingContext";
@@ -117,41 +117,12 @@ export const Builder = ({ socket }) => {
                 )} kBtu/ft^2/yr)`}
           </h1>
         </div>
-        <div className="controls">
-          {Object.entries(building).map(([table, data], i) => (
-            <div key={`control-group-${table}-${i}`}>
-              <h3>{uiMetadata[table].tableTitle}</h3>
-              {Object.entries(data).map(([parameter, value], i) => {
-                const Component = uiMetadata[table].component
-                  ? uiMetadata[table].component
-                  : uiMetadata[table][parameter].component;
-                const uiConfig = uiMetadata[table].config
-                  ? uiMetadata[table].config
-                  : uiMetadata[table][parameter].config;
-                const uiConditional = uiMetadata[table].component
-                  ? uiMetadata[table].conditional
-                  : uiMetadata[table][parameter].conditional;
-
-                const condition = uiConditional
-                  ? uiConditional(building)
-                  : true;
-
-                return condition ? (
-                  <Component
-                    key={`control-${table}-${parameter}`}
-                    table={table}
-                    parameter={parameter}
-                    state={building}
-                    setState={setBuilding}
-                    setLocalBuildingChange={setLocalBuildingChange}
-                    uiConfig={uiConfig}
-                  />
-                ) : null;
-              })}
-            </div>
-          ))}
-        </div>
-        <button onClick={submitBuildingData}>Submit</button>
+        <ControlsForm
+          building={building}
+          setBuilding={setBuilding}
+          setLocalBuildingChange={setLocalBuildingChange}
+          submitBuildingData={submitBuildingData}
+        />
       </div>
       <Canvas
         className="canvas"
