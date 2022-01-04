@@ -121,6 +121,31 @@ export const uiMetadata = {
   },
   mass: {
     tableTitle: "Massing",
+    type: {
+      component: ControlDropdown,
+      config: {
+        title: (param) => `Mass Type`,
+        options: ["Block", "O-Shaped", "U-Shaped", "L-Shaped"],
+      },
+    },
+    cutoutDepth: {
+      component: ControlSlider,
+      config: {
+        title: (param) => `Cutout Depth`,
+        range: [0, 1],
+        step: [0.01],
+      },
+      conditional: (building) => building.mass.type >= 1,
+    },
+    cutoutWidth: {
+      component: ControlSlider,
+      config: {
+        title: (param) => `Cutout Width`,
+        range: [0, 1],
+        step: [0.01],
+      },
+      conditional: (building) => building.mass.type >= 1,
+    },
     floors: {
       component: ControlSlider,
       config: {
