@@ -1,5 +1,4 @@
-import { Socket } from "socket.io-client";
-import { Builder } from "./Builder";
+import { Builder } from "./components/Builder";
 import io from "socket.io-client";
 import { useEffect, useState } from "react";
 

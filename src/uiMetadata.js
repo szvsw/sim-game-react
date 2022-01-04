@@ -1,5 +1,5 @@
-import { ControlSlider } from "./ControlSlider";
-import { ControlDropdown } from "./ControlDropdown";
+import { ControlSlider } from "./components/ControlSlider";
+import { ControlDropdown } from "./components/ControlDropdown";
 export const uiMetadata = {
   glazing: {
     tableTitle: "Glazing",

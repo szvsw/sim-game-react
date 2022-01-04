@@ -1,6 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import { useState, useEffect, useCallback } from "react";
-import { uiMetadata } from "./uiMetadata";
+import { uiMetadata } from "../uiMetadata";
 import { BuildingBasic } from "./BuildingBasic";
 import { BuildingOShape } from "./BuildingOShape";
 import { SurroundingContext } from "./SurroundingContext";
