@@ -1,6 +1,6 @@
 # Building Energy Use Intensity Simulation Game
 
-Front-end for running the EUI Simulation Game played in MIT 4.464: Environmental Technology in Buildings.
+React front-end for running the EUI Simulation Game played in MIT 4.464: Environmental Technology in Buildings.
 
 Back-end in found in this repo: [sim-game-server](https://github.com/szvsw/sim-game-server)
 
