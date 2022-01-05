@@ -40,8 +40,8 @@ export const ControlsForm = ({
     [savedConfigurations, setBuilding, setLocalBuildingChange]
   );
   return (
-    <>
-      <div className="controls-form">
+    <div className="controls-form">
+      <div className="control-groups">
         {Object.entries(building).map(([table, data], i) => (
           <ControlGroup
             key={`control-group-${table}`}
@@ -53,27 +53,29 @@ export const ControlsForm = ({
           />
         ))}
       </div>
-      <label htmlFor="configurationName">Name: </label>
-      <input
-        id="configurationName"
-        type="text"
-        placeholder={configurationName}
-        onChange={(e) => setConfigurationName(e.target.value)}
-      />
-      <button className="controls-form-btn" onClick={saveConfiguration}>
-        Save
-      </button>
-      {savedConfigurations.map((config, i) => (
-        <button
-          onClick={() => recallConfiguration(i)}
-          key={`recall-${config.name}-${i}`}
-        >
-          {config.name}
+      <div className="controls-form-footer">
+        <label htmlFor="configurationName">Name: </label>
+        <input
+          id="configurationName"
+          type="text"
+          placeholder={configurationName}
+          onChange={(e) => setConfigurationName(e.target.value)}
+        />
+        <button className="controls-form-btn" onClick={saveConfiguration}>
+          Save
         </button>
-      ))}
-      <button className="controls-form-btn" onClick={submitBuildingData}>
-        Calculate EUI
-      </button>
-    </>
+        {savedConfigurations.map((config, i) => (
+          <button
+            onClick={() => recallConfiguration(i)}
+            key={`recall-${config.name}-${i}`}
+          >
+            {config.name}
+          </button>
+        ))}
+        <button className="controls-form-btn" onClick={submitBuildingData}>
+          Calculate EUI
+        </button>
+      </div>
+    </div>
   );
 };

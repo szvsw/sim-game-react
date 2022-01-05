@@ -20,7 +20,7 @@ export const ControlDropdown = ({
     [table, parameter, setBuilding, setLocalBuildingChange]
   );
   return (
-    <div className="control">
+    <div className="control dropdown">
       <label htmlFor={`control-${table}-${parameter}-dropdown`}>
         {uiConfig.title(parameter)}
       </label>

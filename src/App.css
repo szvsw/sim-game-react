@@ -14,35 +14,54 @@ body,
 .userInterface {
   position: absolute;
   z-index: 2;
-  padding: 20px;
+  padding: 1.3rem;
 }
 
-.controls-form {
+.control-groups {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  width: 30vw;
 }
 
-.control-group {
-  background-color: #aaaaaa55;
-}
-
-.control {
-  margin: 5px;
+.control-group-container {
+  margin-bottom: 0.4rem;
 }
 
 .control-group-expander {
-  padding: 5px;
-  margin-bottom: 3px;
+  padding: 0.5rem;
+  padding-left: 0.7rem;
   border-bottom: 1px solid black;
   border-top: none;
   border-left: none;
   border-right: none;
   border-radius: 0px;
+  text-align: left;
+  width: 100%;
 }
 
+.control-group {
+  background-color: #aaaaaa55;
+  padding: 0.3rem 0;
+}
+
+.control {
+  margin: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+.control label {
+  margin-right: 1rem;
+}
+
+.control :not(label) {
+  flex-grow: 1;
+}
 .slider {
   display: flex;
   align-items: center;
+}
+
+.controls-form-footer {
+  display: flex;
+  /* width: 20vw; */
 }

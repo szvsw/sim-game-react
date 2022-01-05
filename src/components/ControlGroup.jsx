@@ -9,9 +9,9 @@ export const ControlGroup = ({
 }) => {
   const [expanded, setExpanded] = useState(false);
   return (
-    <>
+    <div className="control-group-container">
       <button
-        className="control-group-expander"
+        className={`control-group-expander`}
         onClick={() => setExpanded((_expanded) => !_expanded)}
       >
         {uiMetadata[table].tableTitle}
@@ -46,6 +46,6 @@ export const ControlGroup = ({
           })}
         </div>
       ) : null}
-    </>
+    </div>
   );
 };
