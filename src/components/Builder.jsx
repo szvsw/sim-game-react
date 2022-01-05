@@ -203,7 +203,7 @@ export const Builder = ({ socket }) => {
           args={[1000, 1000]}
         >
           <shadowMaterial attach="material" opacity={0.4} />
-          <meshStandardMaterial attach="material" color="white" />
+          <meshStandardMaterial attach="material" color="gray" />
         </Plane>
 
         <BuildingContainer building={building} />

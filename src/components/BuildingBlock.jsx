@@ -36,7 +36,7 @@ export const BuildingBlock = ({
           <meshStandardMaterial
             side={THREE.DoubleSide}
             attach="material"
-            color="red"
+            color="gray"
           />
         </Plane>
       );
@@ -57,7 +57,7 @@ export const BuildingBlock = ({
           <meshStandardMaterial
             side={THREE.DoubleSide}
             attach="material"
-            color="red"
+            color="gray"
           />
         </Plane>
       );
@@ -79,7 +79,7 @@ export const BuildingBlock = ({
           <meshStandardMaterial
             side={THREE.DoubleSide}
             attach="material"
-            color="red"
+            color="gray"
           />
         </Plane>
       );
@@ -101,7 +101,7 @@ export const BuildingBlock = ({
           <meshStandardMaterial
             side={THREE.DoubleSide}
             attach="material"
-            color="red"
+            color="gray"
           />
         </Plane>
       );
@@ -210,7 +210,7 @@ export const BuildingBlock = ({
           ]}
           scale={[mass.width, mass.floorHeight, mass.depth]}
         >
-          <meshStandardMaterial attach="material" color="green" />
+          <meshStandardMaterial attach="material" color="white" />
         </Box>
       );
   }
