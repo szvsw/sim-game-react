@@ -8,6 +8,7 @@ export const ControlsForm = ({
 }) => {
   const [savedConfigurations, setSavedConfigurations] = useState([]);
   const [configurationName, setConfigurationName] = useState("Baseline");
+  const [visible, setVisible] = useState(false);
   const saveConfiguration = useCallback(
     // TODO: Figure out why dereferencing building isn't working and why entries in table seem to get overwritten...
     (e) => {
@@ -41,18 +42,26 @@ export const ControlsForm = ({
   );
   return (
     <div className="controls-form">
-      <div className="control-groups">
-        {Object.entries(building).map(([table, data], i) => (
-          <ControlGroup
-            key={`control-group-${table}`}
-            table={table}
-            data={data}
-            building={building}
-            setBuilding={setBuilding}
-            setLocalBuildingChange={setLocalBuildingChange}
-          />
-        ))}
-      </div>
+      <button
+        className="controls-form-expander"
+        onClick={() => setVisible((prev) => !prev)}
+      >
+        Configure
+      </button>
+      {visible ? (
+        <div className="control-groups">
+          {Object.entries(building).map(([table, data], i) => (
+            <ControlGroup
+              key={`control-group-${table}`}
+              table={table}
+              data={data}
+              building={building}
+              setBuilding={setBuilding}
+              setLocalBuildingChange={setLocalBuildingChange}
+            />
+          ))}
+        </div>
+      ) : null}
       <div className="controls-form-footer">
         <label htmlFor="configurationName">Name: </label>
         <input

@@ -6,6 +6,7 @@ import { BuildingOShape } from "./BuildingOShape";
 import { BuildingUShape } from "./BuildingUShape";
 import { SurroundingContext } from "./SurroundingContext";
 import { Plane, OrbitControls } from "@react-three/drei";
+import { StackedBarChart } from "./StackedBarChart";
 
 const buildingComponents = [BuildingBasic, BuildingOShape, BuildingUShape];
 
@@ -13,6 +14,7 @@ export const Builder = ({ socket }) => {
   const [cost, setCost] = useState(null);
   const [serverIsComputingCost, setServerIsComputingCost] = useState(true);
   const [eui, setEui] = useState("No results calculated yet.");
+  const [results, setResults] = useState(null);
   const [serverIsComputingEui, setServerIsComputingEui] = useState(false);
   const [localBuildingChange, setLocalBuildingChange] = useState(false);
   const [floorArea, setFloorArea] = useState(0);
@@ -90,6 +92,13 @@ export const Builder = ({ socket }) => {
 
   useEffect(() => {
     if (socket)
+      socket.on("results", (data) => {
+        setResults(data);
+      });
+  }, [socket, setResults]);
+
+  useEffect(() => {
+    if (socket)
       socket.on("cost", (data) => {
         setCost(data);
         setServerIsComputingCost(false);
@@ -121,26 +130,31 @@ export const Builder = ({ socket }) => {
   return (
     <>
       <div className="userInterface">
-        <div className="computedValues">
-          <h2>Floor Area: {floorArea.toFixed(0)}m^2</h2>
-          <h2>COST: {serverIsComputingCost ? "(computing)" : `$${cost}USD`}</h2>
-          <h2>
-            EUI :{" "}
-            {serverIsComputingEui
-              ? "(computing)"
-              : isNaN(eui)
-              ? "No EUI Calculation yet"
-              : `${eui.toFixed(1)} kWh/m^2/yr (${(eui * 0.31).toFixed(
-                  1
-                )} kBtu/ft^2/yr)`}
-          </h2>
+        <div>
+          <ControlsForm
+            building={building}
+            setBuilding={setBuilding}
+            setLocalBuildingChange={setLocalBuildingChange}
+            submitBuildingData={submitBuildingData}
+          />
+          <div className="computedValues">
+            <p>Floor Area: {floorArea.toFixed(0)}m^2</p>
+            <p>COST: {serverIsComputingCost ? "(computing)" : `$${cost}USD`}</p>
+            <p>
+              EUI :{" "}
+              {serverIsComputingEui
+                ? "(computing)"
+                : isNaN(eui)
+                ? "No EUI Calculation yet"
+                : eui
+                ? `${eui.toFixed(1)} kWh/m^2/yr (${(eui * 0.31).toFixed(
+                    1
+                  )} kBtu/ft^2/yr)`
+                : "No EUI calculation yet"}
+            </p>
+          </div>
         </div>
-        <ControlsForm
-          building={building}
-          setBuilding={setBuilding}
-          setLocalBuildingChange={setLocalBuildingChange}
-          submitBuildingData={submitBuildingData}
-        />
+        <StackedBarChart results={results} />
       </div>
       <Canvas
         className="canvas"

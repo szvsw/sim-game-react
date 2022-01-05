@@ -15,8 +15,12 @@ body,
   position: absolute;
   z-index: 2;
   padding: 1.3rem;
+  display: flex;
+  align-items: flex-start;
 }
-
+.results {
+  margin-left: 2rem;
+}
 .control-groups {
   display: flex;
   flex-direction: column;
@@ -27,7 +31,9 @@ body,
   margin-bottom: 0.4rem;
 }
 
-.control-group-expander {
+.controls-form-expander,
+.control-group-expander,
+.results-expander {
   padding: 0.5rem;
   padding-left: 0.7rem;
   border-bottom: 1px solid black;
@@ -37,6 +43,21 @@ body,
   border-radius: 0px;
   text-align: left;
   width: 100%;
+}
+
+.controls-form-expander {
+  margin-bottom: 0.5rem;
+}
+
+.results-expander,
+.controls-form-expander {
+  background-color: #222222;
+  color: white;
+}
+
+.results-expander:hover,
+.controls-form-expander:hover {
+  background-color: #555555;
 }
 
 .control-group {
@@ -64,4 +85,8 @@ body,
 .controls-form-footer {
   display: flex;
   /* width: 20vw; */
+}
+
+.stacked-bar-chart-container {
+  height: 30vh;
 }
