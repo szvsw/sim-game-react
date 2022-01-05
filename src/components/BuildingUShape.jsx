@@ -1,165 +1,149 @@
 import { BuildingBlock } from "./BuildingBlock";
 export const BuildingUShape = ({ building }) => {
-  const orientation = 0;
+  const orientation = 1;
   const trueCutoutWidth = building.mass.width * building.mass.cutoutWidth;
   const trueCutoutDepth = building.mass.depth * building.mass.cutoutDepth;
-  const usableWidth = (building.mass.width - trueCutoutWidth) / 2;
-  const usableDepth = (building.mass.depth - trueCutoutDepth) / 2;
-  const extenderDepth = trueCutoutDepth + usableDepth;
-  const extenderWidth = trueCutoutWidth + usableWidth;
-  const cornerBlock = {
+  const corridorPerpendicularWidth =
+    (building.mass.width - trueCutoutWidth) /
+    (orientation === 1 || orientation === 3 ? 1 : 2);
+  const corridorPerpendicularDepth =
+    (building.mass.depth - trueCutoutDepth) /
+    (orientation === 0 || orientation === 2 ? 1 : 2);
+
+  const fullDepthBlock = {
     ...building,
     mass: {
       ...building.mass,
-      depth: usableDepth,
-      width: usableWidth,
+      width: corridorPerpendicularWidth,
     },
   };
-  const linkageDepth = {
-    ...building,
-    mass: { ...cornerBlock.mass, depth: trueCutoutDepth },
-  };
-  const linkageWidth = {
-    ...building,
-    mass: { ...cornerBlock.mass, width: trueCutoutWidth },
-  };
-
-  const extensionDepth = {
+  const linkageDepthBlock = {
     ...building,
     mass: {
-      ...cornerBlock.mass,
-      depth: extenderDepth,
+      ...building.mass,
+      depth: trueCutoutDepth,
+      width: corridorPerpendicularWidth,
     },
   };
 
-  const extensionWidth = {
+  const fullWidthBlock = {
     ...building,
     mass: {
-      ...cornerBlock.mass,
-      width: extenderWidth,
+      ...building.mass,
+      depth: corridorPerpendicularDepth,
     },
   };
-
-  const fullMass = {
+  const linkageWidthBlock = {
     ...building,
+    mass: {
+      ...building.mass,
+      width: trueCutoutWidth,
+      depth: corridorPerpendicularDepth,
+    },
   };
   return (
     <>
       <BuildingBlock
-        shadingE={orientation === 2 || orientation === 0}
-        windowsE={orientation === 2 || orientation === 0}
-        building={extensionDepth}
-        position={[extenderWidth, 0, orientation === 2 ? usableDepth : 0]}
-      />
-      <BuildingBlock
-        shadingW={orientation === 2 || orientation === 0}
-        windowsW={orientation === 2 || orientation === 0}
-        building={extensionDepth}
-        position={[0, 0, orientation === 2 ? usableDepth : 0]}
-      />
-      <BuildingBlock
-        shadingS={orientation === 3 || orientation === 1}
-        windowsS={orientation === 3 || orientation === 1}
-        building={extensionWidth}
-        position={[orientation === 3 ? usableWidth : 0, 0, extenderDepth]}
-      />
-      <BuildingBlock
-        shadingN={orientation === 3 || orientation === 1}
-        windowsN={orientation === 3 || orientation === 1}
-        building={extensionWidth}
-        position={[orientation === 3 ? usableWidth : 0, 0, 0]}
-      />
-      {/* corners */}
-      <BuildingBlock
-        block
-        windowsS={orientation === 0}
-        shadingS={orientation === 0}
-        windowsE={orientation === 1}
-        shadingE={orientation === 1}
-        building={cornerBlock}
+        block={orientation !== 0}
+        windowsS={orientation !== 0}
+        shadingS={orientation !== 0}
+        building={fullWidthBlock}
         position={[0, 0, 0]}
       />
       <BuildingBlock
-        block
-        windowsS={orientation === 0}
-        shadingS={orientation === 0}
-        windowsW={orientation === 3}
-        shadingW={orientation === 3}
-        building={cornerBlock}
-        position={[usableWidth + trueCutoutWidth, 0, 0]}
-      />
-      <BuildingBlock
-        block
-        windowsE={orientation === 1}
-        shadingE={orientation === 1}
-        windowsN={orientation === 2}
-        shadingN={orientation === 2}
-        building={cornerBlock}
-        position={[0, 0, usableDepth + trueCutoutDepth]}
-      />
-      <BuildingBlock
-        block
-        windowsN={orientation === 2}
-        shadingN={orientation === 2}
-        windowsW={orientation === 3}
-        shadingW={orientation === 3}
-        building={cornerBlock}
-        position={[
-          usableWidth + trueCutoutWidth,
-          0,
-          usableDepth + trueCutoutDepth,
-        ]}
-      />
-      {/* Horizontal Linkages*/}
-      {orientation !== 0 ? (
-        <BuildingBlock
-          block
-          shadingN={orientation !== 1 && orientation !== 3}
-          windowsN={orientation !== 1 && orientation !== 3}
-          building={linkageWidth}
-          position={[usableWidth, 0, 0]}
-        />
-      ) : null}
-      {orientation !== 2 ? (
-        <BuildingBlock
-          block
-          shadingS={orientation !== 1 && orientation !== 3}
-          windowsS={orientation !== 1 && orientation !== 3}
-          building={linkageWidth}
-          position={[usableWidth, 0, usableDepth + trueCutoutDepth]}
-        />
-      ) : null}
-
-      {/* Depth Linkages */}
-      {orientation !== 1 ? (
-        <BuildingBlock
-          block
-          shadingW={orientation !== 0 && orientation !== 2}
-          windowsW={orientation !== 0 && orientation !== 2}
-          building={linkageDepth}
-          position={[0, 0, usableDepth]}
-        />
-      ) : null}
-
-      {orientation !== 3 ? (
-        <BuildingBlock
-          block
-          shadingE={orientation !== 0 && orientation !== 2}
-          windowsE={orientation !== 0 && orientation !== 2}
-          building={linkageDepth}
-          position={[usableWidth + trueCutoutWidth, 0, usableDepth]}
-        />
-      ) : null}
-      <BuildingBlock
-        windowsW={orientation !== 3}
-        shadingW={orientation !== 3}
-        windowsE={orientation !== 1}
-        shadingE={orientation !== 1}
+        block={orientation !== 2}
         windowsN={orientation !== 2}
         shadingN={orientation !== 2}
-        windowsS={orientation !== 0}
-        shadingS={orientation !== 0}
-        building={fullMass}
+        building={fullWidthBlock}
+        position={[
+          0,
+          0,
+          trueCutoutDepth +
+            (orientation === 1 || orientation === 3
+              ? corridorPerpendicularDepth
+              : 0),
+        ]}
+      />
+      <BuildingBlock
+        block={orientation !== 1}
+        windowsE={orientation !== 1}
+        shadingE={orientation !== 1}
+        building={fullDepthBlock}
+        position={[0, 0, 0]}
+      />
+      <BuildingBlock
+        block={orientation !== 3}
+        windowsW={orientation !== 3}
+        shadingW={orientation !== 3}
+        building={fullDepthBlock}
+        position={[
+          trueCutoutWidth +
+            (orientation === 0 || orientation === 2
+              ? corridorPerpendicularWidth
+              : 0),
+          0,
+          0,
+        ]}
+      />
+      {/* */}
+      <BuildingBlock
+        windowsS={orientation === 0}
+        windowsN={orientation === 2}
+        shadingS={orientation === 0}
+        shadingN={orientation === 2}
+        building={linkageWidthBlock}
+        position={[
+          corridorPerpendicularWidth,
+          0,
+          orientation === 0 ? trueCutoutDepth : 0,
+        ]}
+      />
+      <BuildingBlock
+        windowsE={orientation === 1}
+        windowsW={orientation === 3}
+        shadingE={orientation === 1}
+        shadingW={orientation === 3}
+        building={linkageDepthBlock}
+        position={[
+          orientation === 1 ? trueCutoutWidth : 0,
+          0,
+          corridorPerpendicularDepth,
+        ]}
+      />
+
+      {/* */}
+
+      <BuildingBlock
+        windowsW={orientation % 2 === 0}
+        shadingW={orientation % 2 === 0}
+        building={linkageDepthBlock}
+        position={[0, 0, orientation === 2 ? corridorPerpendicularDepth : 0]}
+      />
+      <BuildingBlock
+        windowsE={orientation % 2 === 0}
+        shadingE={orientation % 2 === 0}
+        building={linkageDepthBlock}
+        position={[
+          trueCutoutWidth + corridorPerpendicularWidth,
+          0,
+          orientation === 2 ? corridorPerpendicularDepth : 0,
+        ]}
+      />
+      <BuildingBlock
+        windowsN={orientation % 2 === 1}
+        shadingN={orientation % 2 === 1}
+        building={linkageWidthBlock}
+        position={[orientation === 3 ? corridorPerpendicularWidth : 0, 0, 0]}
+      />
+      <BuildingBlock
+        windowsS={orientation % 2 === 1}
+        shadingS={orientation % 2 === 1}
+        building={linkageWidthBlock}
+        position={[
+          orientation === 3 ? corridorPerpendicularWidth : 0,
+          0,
+          trueCutoutDepth + corridorPerpendicularDepth,
+        ]}
       />
     </>
   );
