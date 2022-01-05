@@ -123,7 +123,6 @@ export const Builder = ({ socket }) => {
   useEffect(() => {
     if (socket)
       socket.on("building", (data) => {
-        console.log(data);
         setBuilding(data);
       });
   }, [socket, setBuilding]);
