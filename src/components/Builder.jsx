@@ -146,7 +146,7 @@ export const Builder = ({ socket }) => {
   const dLightPos = sunPos.map((x) => x * 20);
   return (
     <>
-      <div className="userInterface">
+      <div className="user-interface">
         <div className="controls-and-computed">
           <ControlsForm
             building={building}
@@ -154,7 +154,7 @@ export const Builder = ({ socket }) => {
             setLocalBuildingChange={setLocalBuildingChange}
             submitBuildingData={submitBuildingData}
           />
-          <div className="computedValues">
+          <div className="computed-values">
             <p>Floor Area: {floorArea.toFixed(0)}m^2</p>
             <p>COST: {serverIsComputingCost ? "(computing)" : `$${cost}USD`}</p>
             <p>
@@ -177,7 +177,7 @@ export const Builder = ({ socket }) => {
         className="canvas"
         colorManagement
         shadows
-        camera={{ fov: 60, position: [20, 20, -40] }}
+        camera={{ fov: 60, position: [-100, 50, -60] }}
       >
         <OrbitControls target={[0, 0, 0]} />
         <directionalLight
@@ -200,7 +200,7 @@ export const Builder = ({ socket }) => {
           receiveShadow
           rotation={[-Math.PI / 2, 0, 0]}
           position={[0, 0, 0]}
-          args={[1000, 1000]}
+          args={[10000, 10000]}
         >
           <shadowMaterial attach="material" opacity={0.4} />
           <meshStandardMaterial attach="material" color="gray" />

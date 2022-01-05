@@ -11,7 +11,11 @@ body,
   font-family: sans-serif;
 }
 
-.userInterface {
+.computed-values {
+  background-color: #aaaaaa55;
+  padding-left: 0.5rem;
+}
+.user-interface {
   position: absolute;
   z-index: 2;
   padding: 1.3rem;
