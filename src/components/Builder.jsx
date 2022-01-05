@@ -1,14 +1,11 @@
 import { Canvas } from "@react-three/fiber";
 import { useState, useEffect, useCallback } from "react";
 import { ControlsForm } from "./ControlsForm";
-import { BuildingBasic } from "./BuildingBasic";
-import { BuildingOShape } from "./BuildingOShape";
-import { BuildingUShape } from "./BuildingUShape";
+import { BuildingContainer } from "./BuildingContainer";
 import { SurroundingContext } from "./SurroundingContext";
 import { Plane, OrbitControls } from "@react-three/drei";
 import { StackedBarChart } from "./StackedBarChart";
-
-const buildingComponents = [BuildingBasic, BuildingOShape, BuildingUShape];
+import { Sky } from "@react-three/drei";
 
 export const Builder = ({ socket }) => {
   const [cost, setCost] = useState(null);
@@ -18,7 +15,12 @@ export const Builder = ({ socket }) => {
   const [serverIsComputingEui, setServerIsComputingEui] = useState(false);
   const [localBuildingChange, setLocalBuildingChange] = useState(false);
   const [floorArea, setFloorArea] = useState(0);
+  const [sunPos, setSunPos] = useState([0, 50, 0]);
   const [building, setBuilding] = useState({
+    positioning: {
+      x: 0,
+      y: 0,
+    },
     mass: {
       floors: 4,
       floorHeight: 3,
@@ -59,6 +61,10 @@ export const Builder = ({ socket }) => {
       source: 0,
       fans: 0,
     },
+    sun: {
+      azimuth: Math.PI / 3,
+      inclination: Math.PI / 12,
+    },
   });
 
   useEffect(() => {
@@ -74,8 +80,6 @@ export const Builder = ({ socket }) => {
 
     setFloorArea(_floorArea);
   }, [building, setFloorArea]);
-
-  const BuildingComponent = buildingComponents[building.mass.type];
 
   const submitBuildingData = useCallback(() => {
     if (socket) socket.emit("compute eui", 1);
@@ -126,6 +130,20 @@ export const Builder = ({ socket }) => {
         setBuilding(data);
       });
   }, [socket, setBuilding]);
+
+  useEffect(() => {
+    const { azimuth, inclination } = building.sun;
+    // Fake intersection with box calculation
+    const x =
+      1 * Math.cos(building.sun.azimuth) * (inclination > Math.PI / 2 ? -1 : 1);
+    const y =
+      1 * Math.sin(building.sun.azimuth) * (inclination > Math.PI / 2 ? -1 : 1);
+    const z = 10 * Math.sin(building.sun.inclination);
+    const normalized = [x, y, z];
+
+    setSunPos([-normalized[0], normalized[2], normalized[1]]);
+  }, [building, setSunPos]);
+  const dLightPos = sunPos.map((x) => x * 20);
   return (
     <>
       <div className="userInterface">
@@ -165,10 +183,18 @@ export const Builder = ({ socket }) => {
         <directionalLight
           intensity={0.7}
           castShadow
-          shadow-mapSize-height={512}
-          shadow-mapSize-width={512}
-          position={[15, 30, -5]}
+          shadow-mapSize-height={1024}
+          shadow-mapSize-width={1024}
+          position={dLightPos}
+          shadow-camera-near={0.1}
+          shadow-camera-far={100}
+          shadow-camera-top={-100}
+          shadow-camera-bottom={100}
+          shadow-camera-left={-100}
+          shadow-camera-right={100}
         />
+        <Sky distance={1000} sunPosition={sunPos} />
+
         <ambientLight intensity={0.1} />
         <Plane
           receiveShadow
@@ -176,10 +202,11 @@ export const Builder = ({ socket }) => {
           position={[0, 0, 0]}
           args={[1000, 1000]}
         >
+          <shadowMaterial attach="material" opacity={0.4} />
           <meshStandardMaterial attach="material" color="white" />
         </Plane>
 
-        <BuildingComponent building={building} />
+        <BuildingContainer building={building} />
 
         <SurroundingContext />
       </Canvas>

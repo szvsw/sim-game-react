@@ -190,4 +190,48 @@ export const uiMetadata = {
       },
     },
   },
+  sun: {
+    tableTitle: "Sun",
+    inclination: {
+      component: ControlSlider,
+      config: {
+        title: (param, value) =>
+          `Inclination: ${((value * 180) / Math.PI)
+            .toFixed(1)
+            .padStart(5, "0")}deg`,
+        range: [0, Math.PI],
+        step: 0.01,
+      },
+    },
+    azimuth: {
+      component: ControlSlider,
+      config: {
+        title: (param, value) =>
+          `Azimuth: ${((value * 180) / Math.PI)
+            .toFixed(1)
+            .padStart(5, "0")}deg`,
+        range: [0, 2 * Math.PI],
+        step: 0.01,
+      },
+    },
+  },
+  positioning: {
+    tableTitle: "Positioning",
+    x: {
+      component: ControlSlider,
+      config: {
+        title: (param, value) => `X Offset: ${value.toFixed(0)}m`,
+        range: [-100, 100],
+        step: 1,
+      },
+    },
+    y: {
+      component: ControlSlider,
+      config: {
+        title: (param, value) => `Y Offset: ${value.toFixed(0)}m`,
+        range: [-100, 100],
+        step: 1,
+      },
+    },
+  },
 };
