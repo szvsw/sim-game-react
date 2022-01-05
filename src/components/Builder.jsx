@@ -129,7 +129,7 @@ export const Builder = ({ socket }) => {
   return (
     <>
       <div className="userInterface">
-        <div>
+        <div className="controls-and-computed">
           <ControlsForm
             building={building}
             setBuilding={setBuilding}
