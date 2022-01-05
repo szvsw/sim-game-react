@@ -3,10 +3,11 @@ import { useState, useEffect, useCallback } from "react";
 import { ControlsForm } from "./ControlsForm";
 import { BuildingBasic } from "./BuildingBasic";
 import { BuildingOShape } from "./BuildingOShape";
+import { BuildingUShape } from "./BuildingUShape";
 import { SurroundingContext } from "./SurroundingContext";
 import { Plane, OrbitControls } from "@react-three/drei";
 
-const buildingComponents = [BuildingBasic, BuildingOShape];
+const buildingComponents = [BuildingBasic, BuildingOShape, BuildingUShape];
 
 export const Builder = ({ socket }) => {
   const [cost, setCost] = useState(null);

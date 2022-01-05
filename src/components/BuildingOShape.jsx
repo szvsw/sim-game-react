@@ -62,6 +62,7 @@ export const BuildingOShape = ({ building }) => {
         building={linkageWidth}
         position={[usableWidth, 0, usableDepth + trueCutoutDepth]}
       />
+      {/* Depth Linkages */}
       <BuildingBlock
         block
         shadingW
