@@ -22,10 +22,10 @@ export const Builder = ({ socket }) => {
       y: 0,
     },
     mass: {
-      floors: 4,
+      floors: 3,
       floorHeight: 3,
-      width: 9,
-      depth: 7,
+      width: 40,
+      depth: 20,
       cutoutWidth: 0.5,
       cutoutDepth: 0.5,
       orientation: 0,
