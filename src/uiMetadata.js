@@ -130,6 +130,15 @@ export const uiMetadata = {
         options: ["Block", "O-Shaped", "U-Shaped"],
       },
     },
+    orientation: {
+      component: ControlSlider,
+      config: {
+        title: (param, value) => `Orientation: `,
+        range: [0, 3],
+        step: [1],
+      },
+      conditional: (building) => building.mass.type >= 2,
+    },
     cutoutDepth: {
       component: ControlSlider,
       config: {

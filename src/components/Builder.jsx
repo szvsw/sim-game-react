@@ -23,6 +23,7 @@ export const Builder = ({ socket }) => {
       depth: 7,
       cutoutWidth: 0.5,
       cutoutDepth: 0.5,
+      orientation: 0,
       type: 0,
     },
     shading: {

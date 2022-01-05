@@ -1,6 +1,6 @@
 import { BuildingBlock } from "./BuildingBlock";
 export const BuildingUShape = ({ building }) => {
-  const orientation = 1;
+  const { orientation } = building.mass;
   const trueCutoutWidth = building.mass.width * building.mass.cutoutWidth;
   const trueCutoutDepth = building.mass.depth * building.mass.cutoutDepth;
   const corridorPerpendicularWidth =
