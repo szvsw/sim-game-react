@@ -179,7 +179,7 @@ export const Builder = ({ socket }) => {
         shadows
         camera={{ fov: 60, position: [-100, 50, -60] }}
       >
-        <OrbitControls target={[0, 0, 0]} />
+        <OrbitControls maxPolarAngle={Math.PI / 2} target={[0, 0, 0]} />
         <directionalLight
           intensity={0.7}
           castShadow
