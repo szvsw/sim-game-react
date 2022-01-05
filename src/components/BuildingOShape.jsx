@@ -4,6 +4,7 @@ export const BuildingOShape = ({ building }) => {
   const trueCutoutDepth = building.mass.depth * building.mass.cutoutDepth;
   const usableWidth = (building.mass.width - trueCutoutWidth) / 2;
   const usableDepth = (building.mass.depth - trueCutoutDepth) / 2;
+
   const cornerBlock = {
     ...building,
     mass: {

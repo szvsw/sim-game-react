@@ -19,7 +19,9 @@ export const ControlsForm = ({
           />
         ))}
       </div>
-      <button onClick={submitBuildingData}>Submit</button>
+      <button className="control-form-submit" onClick={submitBuildingData}>
+        Submit
+      </button>
     </>
   );
 };

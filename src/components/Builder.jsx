@@ -15,6 +15,7 @@ export const Builder = ({ socket }) => {
   const [eui, setEui] = useState("No results calculated yet.");
   const [serverIsComputingEui, setServerIsComputingEui] = useState(false);
   const [localBuildingChange, setLocalBuildingChange] = useState(false);
+  const [floorArea, setFloorArea] = useState(0);
   const [building, setBuilding] = useState({
     mass: {
       floors: 4,
@@ -57,6 +58,20 @@ export const Builder = ({ socket }) => {
       fans: 0,
     },
   });
+
+  useEffect(() => {
+    const _floorArea =
+      (building.mass.width * building.mass.depth -
+        (building.mass.type > 0
+          ? building.mass.width *
+            building.mass.cutoutWidth *
+            building.mass.width *
+            building.mass.cutoutDepth
+          : 0)) *
+      building.mass.floors;
+
+    setFloorArea(_floorArea);
+  }, [building, setFloorArea]);
 
   const BuildingComponent = buildingComponents[building.mass.type];
 
@@ -107,8 +122,9 @@ export const Builder = ({ socket }) => {
     <>
       <div className="userInterface">
         <div className="computedValues">
-          <h1>COST: {serverIsComputingCost ? "(computing)" : `$${cost}USD`}</h1>
-          <h1>
+          <h2>Floor Area: {floorArea.toFixed(0)}m^2</h2>
+          <h2>COST: {serverIsComputingCost ? "(computing)" : `$${cost}USD`}</h2>
+          <h2>
             EUI :{" "}
             {serverIsComputingEui
               ? "(computing)"
@@ -117,7 +133,7 @@ export const Builder = ({ socket }) => {
               : `${eui.toFixed(1)} kWh/m^2/yr (${(eui * 0.31).toFixed(
                   1
                 )} kBtu/ft^2/yr)`}
-          </h1>
+          </h2>
         </div>
         <ControlsForm
           building={building}
