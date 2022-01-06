@@ -1,13 +1,13 @@
 import { BuildingContextProvider } from "./context/BuildingContext";
 import { SocketContextProvider } from "./context/SocketContext";
-import { Builder } from "./components/Builder";
+import { Dashboard } from "./components/Dashboard";
 import { WorldCanvas } from "./components/WorldCanvas";
 
 export const App = () => {
   return (
     <BuildingContextProvider>
       <SocketContextProvider>
-        <Builder />
+        <Dashboard />
         <WorldCanvas />
       </SocketContextProvider>
     </BuildingContextProvider>

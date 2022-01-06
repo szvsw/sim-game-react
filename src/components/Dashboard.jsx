@@ -1,7 +1,7 @@
 import { ControlsForm } from "./ControlsForm";
 import { StackedBarChart } from "./StackedBarChart";
 
-export const Builder = () => {
+export const Dashboard = () => {
   // useEffect(() => {
   //   const { azimuth, inclination } = building.sun;
   //   // Fake intersection with box calculation
