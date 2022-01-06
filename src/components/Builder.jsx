@@ -66,6 +66,17 @@ export const Builder = ({ socket }) => {
       inclination: Math.PI / 12,
     },
   });
+  const randomSunRequest = () => {
+    return {
+      ghCallback: "sun-weather",
+      args: {
+        M: { value: 1 + Math.floor(Math.random() * 10), type: "integer" },
+        D: { value: 1 + Math.floor(Math.random() * 20), type: "integer" },
+        H: { value: Math.random() * 6 + 8, type: "number" },
+      },
+      outs: { V: "Vector3D" },
+    };
+  };
 
   useEffect(() => {
     const _floorArea =
@@ -93,6 +104,18 @@ export const Builder = ({ socket }) => {
         setServerIsComputingEui(false);
       });
   }, [socket, setEui, setServerIsComputingEui]);
+
+  useEffect(() => {
+    if (socket)
+      socket.on("sun-weather", (data) => {
+        const newSunPos = [
+          -data.results.V[0],
+          data.results.V[2],
+          data.results.V[1],
+        ];
+        setSunPos(newSunPos);
+      });
+  }, [socket, setSunPos]);
 
   useEffect(() => {
     if (socket)
@@ -131,19 +154,19 @@ export const Builder = ({ socket }) => {
       });
   }, [socket, setBuilding]);
 
-  useEffect(() => {
-    const { azimuth, inclination } = building.sun;
-    // Fake intersection with box calculation
-    const x =
-      1 * Math.cos(building.sun.azimuth) * (inclination > Math.PI / 2 ? -1 : 1);
-    const y =
-      1 * Math.sin(building.sun.azimuth) * (inclination > Math.PI / 2 ? -1 : 1);
-    const z = 10 * Math.sin(building.sun.inclination);
-    const normalized = [x, y, z];
+  // useEffect(() => {
+  //   const { azimuth, inclination } = building.sun;
+  //   // Fake intersection with box calculation
+  //   const x =
+  //     1 * Math.cos(building.sun.azimuth) * (inclination > Math.PI / 2 ? -1 : 1);
+  //   const y =
+  //     1 * Math.sin(building.sun.azimuth) * (inclination > Math.PI / 2 ? -1 : 1);
+  //   const z = 10 * Math.sin(building.sun.inclination);
+  //   const normalized = [x, y, z];
 
-    setSunPos([-normalized[0], normalized[2], normalized[1]]);
-  }, [building, setSunPos]);
-  const dLightPos = sunPos.map((x) => x * 20);
+  //   setSunPos([-normalized[0], normalized[2], normalized[1]]);
+  // }, [building, setSunPos]);
+  const dLightPos = sunPos.map((x) => x * 100);
   return (
     <>
       <div className="user-interface">
