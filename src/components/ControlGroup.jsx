@@ -1,13 +1,10 @@
 import { uiMetadata } from "../uiMetadata";
-import { useState } from "react";
-export const ControlGroup = ({
-  building,
-  setBuilding,
-  setLocalBuildingChange,
-  table,
-  data,
-}) => {
+import { useState, useContext } from "react";
+import { BuildingContext } from "../context/BuildingContext";
+export const ControlGroup = ({ table }) => {
+  const { building } = useContext(BuildingContext);
   const [expanded, setExpanded] = useState(false);
+  const data = building[table];
   return (
     <div className="control-group-container">
       <button
@@ -37,9 +34,6 @@ export const ControlGroup = ({
                 key={`control-${table}-${parameter}`}
                 table={table}
                 parameter={parameter}
-                building={building}
-                setBuilding={setBuilding}
-                setLocalBuildingChange={setLocalBuildingChange}
                 uiConfig={uiConfig}
               />
             ) : null;

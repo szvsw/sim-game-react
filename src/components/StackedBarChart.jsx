@@ -7,8 +7,9 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Bar } from "react-chartjs-2";
+import { SocketContext } from "../context/SocketContext";
 
 ChartJS.register(
   CategoryScale,
@@ -19,7 +20,8 @@ ChartJS.register(
   Legend
 );
 
-export const StackedBarChart = ({ results }) => {
+export const StackedBarChart = () => {
+  const { results } = useContext(SocketContext);
   const labels = [
     "January",
     "February",

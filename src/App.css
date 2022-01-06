@@ -11,10 +11,6 @@ body,
   font-family: sans-serif;
 }
 
-.computed-values {
-  background-color: #aaaaaa55;
-  padding-left: 0.5rem;
-}
 .user-interface {
   position: absolute;
   z-index: 2;
@@ -51,6 +47,8 @@ body,
 
 .controls-form-expander {
   margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
 }
 
 .results-expander,

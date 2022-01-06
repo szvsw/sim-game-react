@@ -1,14 +1,20 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useContext } from "react";
+import { BuildingContext } from "../context/BuildingContext";
+import { SocketContext } from "../context/SocketContext";
 import { ControlGroup } from "./ControlGroup";
-export const ControlsForm = ({
-  building,
-  setBuilding,
-  setLocalBuildingChange,
-  submitBuildingData,
-}) => {
+
+export const ControlsForm = () => {
+  const { building, setBuilding, floorArea } = useContext(BuildingContext);
+  const {
+    emitBuildingChange,
+    submitBuildingData,
+    cost,
+    serverIsComputingCost,
+  } = useContext(SocketContext);
   const [savedConfigurations, setSavedConfigurations] = useState([]);
   const [configurationName, setConfigurationName] = useState("Baseline");
   const [visible, setVisible] = useState(false);
+
   const saveConfiguration = useCallback(
     // TODO: Figure out why dereferencing building isn't working and why entries in table seem to get overwritten...
     (e) => {
@@ -36,9 +42,9 @@ export const ControlsForm = ({
   const recallConfiguration = useCallback(
     (id) => {
       setBuilding(savedConfigurations[id].data);
-      setLocalBuildingChange(true);
+      emitBuildingChange();
     },
-    [savedConfigurations, setBuilding, setLocalBuildingChange]
+    [savedConfigurations, setBuilding, emitBuildingChange]
   );
   return (
     <div className="controls-form">
@@ -46,19 +52,14 @@ export const ControlsForm = ({
         className="controls-form-expander"
         onClick={() => setVisible((prev) => !prev)}
       >
-        Configure
+        <div>Configure </div>
+        <div>{floorArea}m^2</div>
+        <div>${serverIsComputingCost || !cost ? "--" : cost}</div>
       </button>
       {visible ? (
         <div className="control-groups">
           {Object.entries(building).map(([table, data], i) => (
-            <ControlGroup
-              key={`control-group-${table}`}
-              table={table}
-              data={data}
-              building={building}
-              setBuilding={setBuilding}
-              setLocalBuildingChange={setLocalBuildingChange}
-            />
+            <ControlGroup key={`control-group-${table}`} table={table} />
           ))}
         </div>
       ) : null}

@@ -1,12 +1,10 @@
-import { useCallback } from "react";
-export const ControlDropdown = ({
-  building,
-  setBuilding,
-  setLocalBuildingChange,
-  table,
-  parameter,
-  uiConfig,
-}) => {
+import { useContext, useCallback } from "react";
+import { BuildingContext } from "../context/BuildingContext";
+import { SocketContext } from "../context/SocketContext";
+
+export const ControlDropdown = ({ table, parameter, uiConfig }) => {
+  const { building, setBuilding } = useContext(BuildingContext);
+  const { emitBuildingChange } = useContext(SocketContext);
   const handleParameterChange = useCallback(
     (e) => {
       const newValue = Number(e.target.value);
@@ -15,9 +13,10 @@ export const ControlDropdown = ({
         newBuilding[table][parameter] = newValue;
         return newBuilding;
       });
-      setLocalBuildingChange(true);
+
+      emitBuildingChange();
     },
-    [table, parameter, setBuilding, setLocalBuildingChange]
+    [table, parameter, setBuilding, emitBuildingChange]
   );
   return (
     <div className="control dropdown">

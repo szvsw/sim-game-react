@@ -1,13 +1,15 @@
+import { BuildingContextProvider } from "./context/BuildingContext";
+import { SocketContextProvider } from "./context/SocketContext";
 import { Builder } from "./components/Builder";
-import io from "socket.io-client";
-import { useEffect, useState } from "react";
+import { WorldCanvas } from "./components/WorldCanvas";
 
 export const App = () => {
-  const [socket, setSocket] = useState(null);
-  useEffect(() => {
-    const newSocket = io(`http://${window.location.hostname}:3000`);
-    setSocket(newSocket);
-    return () => newSocket.close();
-  }, [setSocket]);
-  return <Builder socket={socket} />;
+  return (
+    <BuildingContextProvider>
+      <SocketContextProvider>
+        <Builder />
+        <WorldCanvas />
+      </SocketContextProvider>
+    </BuildingContextProvider>
+  );
 };
