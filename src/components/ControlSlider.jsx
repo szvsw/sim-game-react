@@ -10,9 +10,9 @@ export const ControlSlider = ({ table, parameter, uiConfig }) => {
       setBuilding((oldBuilding) => {
         const newBuilding = { ...oldBuilding };
         newBuilding[table][parameter] = newValue;
+        emitBuildingChange(newBuilding);
         return newBuilding;
       });
-      emitBuildingChange();
     },
     [table, parameter, setBuilding, emitBuildingChange]
   );

@@ -28,12 +28,15 @@ export const SocketContextProvider = ({ children }) => {
     setServerIsComputingEui(true);
   }, [setServerIsComputingEui, socket]);
 
-  const emitBuildingChange = useCallback(() => {
-    if (socket) {
-      socket.emit("building", building);
-      setServerIsComputingCost(true);
-    }
-  }, [socket, building, setServerIsComputingCost]);
+  const emitBuildingChange = useCallback(
+    (_building) => {
+      if (socket) {
+        socket.emit("building", _building);
+        setServerIsComputingCost(true);
+      }
+    },
+    [socket, setServerIsComputingCost]
+  );
 
   useEffect(() => {
     const newSocket = io(`http://${window.location.hostname}:3000`);
