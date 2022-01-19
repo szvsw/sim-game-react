@@ -1,17 +1,11 @@
-import {
-  useContext,
-  useCallback,
-  useState,
-  useEffect,
-  createContext,
-} from "react";
+import { useContext, useCallback, useState, useEffect, createContext } from "react";
 import io from "socket.io-client";
 import { BuildingContext } from "./BuildingContext";
 
 export const SocketContext = createContext({ socket: null });
 
 export const SocketContextProvider = ({ children }) => {
-  const { building, setBuilding } = useContext(BuildingContext);
+  const { setBuilding } = useContext(BuildingContext);
   const [socket, setSocket] = useState(null);
 
   const [serverIsComputingCost, setServerIsComputingCost] = useState(true);
@@ -38,11 +32,23 @@ export const SocketContextProvider = ({ children }) => {
     [socket, setServerIsComputingCost]
   );
 
+  const computeNewSunPos = useCallback(
+    (_building) => {
+      if (socket) {
+        const sun = _building.sun;
+        socket.emit("sun-weather", sun);
+      }
+    },
+    [socket]
+  );
+
   useEffect(() => {
     const newSocket = io(`http://${window.location.hostname}:3000`);
     setSocket(newSocket);
     return () => newSocket.close();
   }, [setSocket]);
+
+  //TODO: remove event listeners when unmounted
 
   useEffect(() => {
     if (socket) {
@@ -65,11 +71,7 @@ export const SocketContextProvider = ({ children }) => {
       });
 
       socket.on("sun-weather", (data) => {
-        const newSunPos = [
-          -data.results.V[0],
-          data.results.V[2],
-          data.results.V[1],
-        ];
+        const newSunPos = [-data.results.V[0], data.results.V[2], data.results.V[1]];
         setSunPos(newSunPos);
       });
     }
@@ -100,9 +102,8 @@ export const SocketContextProvider = ({ children }) => {
     setSunPos,
     submitBuildingData,
     emitBuildingChange,
+    computeNewSunPos,
   };
 
-  return (
-    <SocketContext.Provider value={value}>{children}</SocketContext.Provider>
-  );
+  return <SocketContext.Provider value={value}>{children}</SocketContext.Provider>;
 };

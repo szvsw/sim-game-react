@@ -3,7 +3,7 @@ import { BuildingContext } from "../context/BuildingContext";
 import { SocketContext } from "../context/SocketContext";
 export const ControlSlider = ({ table, parameter, uiConfig }) => {
   const { building, setBuilding } = useContext(BuildingContext);
-  const { emitBuildingChange } = useContext(SocketContext);
+  const { emitBuildingChange, computeNewSunPos } = useContext(SocketContext);
   const handleParameterChange = useCallback(
     (e) => {
       const newValue = Number(e.target.value);
@@ -11,6 +11,9 @@ export const ControlSlider = ({ table, parameter, uiConfig }) => {
         const newBuilding = { ...oldBuilding };
         newBuilding[table][parameter] = newValue;
         emitBuildingChange(newBuilding);
+        if (table == "sun") {
+          computeNewSunPos(newBuilding);
+        }
         return newBuilding;
       });
     },

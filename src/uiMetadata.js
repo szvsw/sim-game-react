@@ -37,10 +37,7 @@ export const uiMetadata = {
     fans: {
       component: ControlDropdown,
       config: {
-        options: [
-          "No Ceiling Fans [$0]",
-          "Ceiling Fans (+1C to Cooling Setpoint) [$5]",
-        ],
+        options: ["No Ceiling Fans [$0]", "Ceiling Fans (+1C to Cooling Setpoint) [$5]"],
         title: () => "Fans",
       },
     },
@@ -74,12 +71,7 @@ export const uiMetadata = {
     roofs: {
       component: ControlDropdown,
       config: {
-        options: [
-          "R3 [$0.03/m2]",
-          "R5 [$0.06/m2]",
-          "R7 [$0.09/m2]",
-          "R10 [0.12/m2]",
-        ],
+        options: ["R3 [$0.03/m2]", "R5 [$0.06/m2]", "R7 [$0.09/m2]", "R10 [0.12/m2]"],
         title: () => "Roof Slabs",
       },
     },
@@ -93,10 +85,7 @@ export const uiMetadata = {
     tightness: {
       component: ControlDropdown,
       config: {
-        options: [
-          "Basic Construction Tightness 0.4 ACH [$0]",
-          "Tight Envelope Construction 0.1 ACH [$6]",
-        ],
+        options: ["Basic Construction Tightness 0.4 ACH [$0]", "Tight Envelope Construction 0.1 ACH [$6]"],
         title: () => "Envelope Tightness",
       },
     },
@@ -105,8 +94,7 @@ export const uiMetadata = {
     tableTitle: "Shading",
     component: ControlSlider,
     config: {
-      title: (param, value) =>
-        `${param.toUpperCase()} Shading Depth: ${value.toFixed(2)}m `,
+      title: (param, value) => `${param.toUpperCase()} Shading Depth: ${value.toFixed(2)}m `,
       range: [0, 1.5],
       step: 0.01,
     },
@@ -115,8 +103,7 @@ export const uiMetadata = {
     tableTitle: "Window-to-Wall Ratios",
     component: ControlSlider,
     config: {
-      title: (param, value) =>
-        `${param.toUpperCase()} Facade: ${(value * 100).toFixed(0)}%`,
+      title: (param, value) => `${param.toUpperCase()} Facade: ${(value * 100).toFixed(0)}%`,
       range: [0, 1],
       step: 0.01,
     },
@@ -192,28 +179,70 @@ export const uiMetadata = {
   },
   sun: {
     tableTitle: "Sun",
-    inclination: {
+    month: {
       component: ControlSlider,
       config: {
         title: (param, value) =>
-          `Inclination: ${((value * 180) / Math.PI)
-            .toFixed(1)
-            .padStart(5, "0")}deg`,
-        range: [0, Math.PI],
-        step: 0.01,
+          `${
+            [
+              "January",
+              "February",
+              "March",
+              "April",
+              "May",
+              "June",
+              "July",
+              "August",
+              "September",
+              "November",
+              "December",
+            ][value - 1]
+          }`,
+        range: [1, 12],
+        step: 1,
       },
     },
-    azimuth: {
+    day: {
+      component: ControlSlider,
+      config: {
+        title: (param, value) => `${value}`,
+        range: [1, 28],
+        step: 1, //TODO: Allow 31 days
+      },
+    },
+    hour: {
       component: ControlSlider,
       config: {
         title: (param, value) =>
-          `Azimuth: ${((value * 180) / Math.PI)
-            .toFixed(1)
-            .padStart(5, "0")}deg`,
-        range: [0, 2 * Math.PI],
+          `${String(Math.floor(value) % 12 === 0 ? "12" : Math.floor(value) % 12).padStart(2, "0")}:${String(
+            Math.floor((((value * 100) % 100) / 100) * 60)
+          ).padStart(2, "0")} ${value >= 12 ? "PM" : "AM"}`,
+        range: [4, 22],
         step: 0.01,
       },
     },
+    // inclination: {
+    //   component: ControlSlider,
+    //   config: {
+    //     title: (param, value) =>
+    //       `Inclination: ${((value * 180) / Math.PI)
+    //         .toFixed(1)
+    //         .padStart(5, "0")}deg`,
+    //     range: [0, Math.PI],
+    //     step: 0.01,
+    //   },
+    // },
+    // azimuth: {
+    //   component: ControlSlider,
+    //   config: {
+    //     title: (param, value) =>
+    //       `Azimuth: ${((value * 180) / Math.PI)
+    //         .toFixed(1)
+    //         .padStart(5, "0")}deg`,
+    //     range: [0, 2 * Math.PI],
+    //     step: 0.01,
+    //   },
+    // },
   },
   positioning: {
     tableTitle: "Positioning",

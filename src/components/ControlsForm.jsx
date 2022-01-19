@@ -53,7 +53,7 @@ export const ControlsForm = () => {
         onClick={() => setVisible((prev) => !prev)}
       >
         <div>Configure </div>
-        <div>{floorArea}m^2</div>
+        <div>{floorArea.toFixed(0)}m^2</div>
         <div>${serverIsComputingCost || !cost ? "--" : cost}</div>
       </button>
       {visible ? (

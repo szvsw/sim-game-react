@@ -49,8 +49,9 @@ export const BuildingContextProvider = ({ children }) => {
       fans: 0,
     },
     sun: {
-      azimuth: Math.PI / 3,
-      inclination: Math.PI / 12,
+      month: 6,
+      day: 21,
+      hour: 12,
     },
   });
 
@@ -60,10 +61,7 @@ export const BuildingContextProvider = ({ children }) => {
     const _floorArea =
       (building.mass.width * building.mass.depth -
         (building.mass.type > 0
-          ? building.mass.width *
-            building.mass.cutoutWidth *
-            building.mass.width *
-            building.mass.cutoutDepth
+          ? building.mass.width * building.mass.cutoutWidth * building.mass.width * building.mass.cutoutDepth
           : 0)) *
       building.mass.floors;
 
