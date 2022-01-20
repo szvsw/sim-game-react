@@ -22,11 +22,21 @@ export const SocketContextProvider = ({ children }) => {
     setServerIsComputingEui(true);
   }, [setServerIsComputingEui, socket]);
 
+  const triggerCostCalculation = useCallback(
+    (_building) => {
+      if (socket) {
+        console.log("triggering calculation immediately");
+        socket.emit("update cost", _building);
+      }
+    },
+    [socket]
+  );
+
   const emitBuildingChange = useCallback(
     (_building) => {
       if (socket) {
-        socket.emit("building", _building);
         setServerIsComputingCost(true);
+        socket.emit("building", _building);
       }
     },
     [socket, setServerIsComputingCost]
@@ -74,6 +84,12 @@ export const SocketContextProvider = ({ children }) => {
         const newSunPos = [-data.results.V[0], data.results.V[2], data.results.V[1]];
         setSunPos(newSunPos);
       });
+
+      socket.on("cost-calculator", (data) => {
+        const newCost = data.results.cost;
+        setCost(newCost);
+        setServerIsComputingCost(false);
+      });
     }
   }, [
     socket,
@@ -101,6 +117,7 @@ export const SocketContextProvider = ({ children }) => {
     sunPos,
     setSunPos,
     submitBuildingData,
+    triggerCostCalculation,
     emitBuildingChange,
     computeNewSunPos,
   };

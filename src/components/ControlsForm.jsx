@@ -5,8 +5,7 @@ import { ControlGroup } from "./ControlGroup";
 
 export const ControlsForm = () => {
   const { building, setBuilding, floorArea } = useContext(BuildingContext);
-  const { emitBuildingChange, submitBuildingData, triggerCostCalculation, cost, serverIsComputingCost } =
-    useContext(SocketContext);
+  const { emitBuildingChange, submitBuildingData, cost, serverIsComputingCost } = useContext(SocketContext);
   const [savedConfigurations, setSavedConfigurations] = useState([]);
   const [configurationName, setConfigurationName] = useState("Baseline");
   const [visible, setVisible] = useState(false);

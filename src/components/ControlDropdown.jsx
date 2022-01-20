@@ -4,7 +4,7 @@ import { SocketContext } from "../context/SocketContext";
 
 export const ControlDropdown = ({ table, parameter, uiConfig }) => {
   const { building, setBuilding } = useContext(BuildingContext);
-  const { emitBuildingChange } = useContext(SocketContext);
+  const { emitBuildingChange, triggerCostCalculation } = useContext(SocketContext);
   const handleParameterChange = useCallback(
     (e) => {
       const newValue = Number(e.target.value);
@@ -12,6 +12,7 @@ export const ControlDropdown = ({ table, parameter, uiConfig }) => {
         const newBuilding = { ...oldBuilding };
         newBuilding[table][parameter] = newValue;
         emitBuildingChange(newBuilding);
+        triggerCostCalculation(newBuilding);
         return newBuilding;
       });
     },
@@ -19,9 +20,7 @@ export const ControlDropdown = ({ table, parameter, uiConfig }) => {
   );
   return (
     <div className="control dropdown">
-      <label htmlFor={`control-${table}-${parameter}-dropdown`}>
-        {uiConfig.title(parameter)}
-      </label>
+      <label htmlFor={`control-${table}-${parameter}-dropdown`}>{uiConfig.title(parameter)}</label>
       <select
         name={`control-${table}-${parameter}-dropdown`}
         id={`control-${table}-${parameter}-dropdown`}
@@ -30,10 +29,7 @@ export const ControlDropdown = ({ table, parameter, uiConfig }) => {
         onChange={handleParameterChange}
       >
         {uiConfig.options.map((key, index) => (
-          <option
-            key={`control-${table}-${parameter}-option-${index}`}
-            value={index}
-          >
+          <option key={`control-${table}-${parameter}-option-${index}`} value={index}>
             {key}
           </option>
         ))}

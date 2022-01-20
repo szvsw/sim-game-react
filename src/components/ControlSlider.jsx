@@ -3,7 +3,7 @@ import { BuildingContext } from "../context/BuildingContext";
 import { SocketContext } from "../context/SocketContext";
 export const ControlSlider = ({ table, parameter, uiConfig }) => {
   const { building, setBuilding } = useContext(BuildingContext);
-  const { emitBuildingChange, computeNewSunPos } = useContext(SocketContext);
+  const { emitBuildingChange, computeNewSunPos, triggerCostCalculation } = useContext(SocketContext);
   const handleParameterChange = useCallback(
     (e) => {
       const newValue = Number(e.target.value);
@@ -17,7 +17,7 @@ export const ControlSlider = ({ table, parameter, uiConfig }) => {
         return newBuilding;
       });
     },
-    [table, parameter, setBuilding, emitBuildingChange]
+    [table, parameter, setBuilding, computeNewSunPos, emitBuildingChange]
   );
 
   const value = building[table][parameter];
@@ -28,6 +28,7 @@ export const ControlSlider = ({ table, parameter, uiConfig }) => {
         type="range"
         value={value}
         onChange={handleParameterChange}
+        onMouseUp={() => triggerCostCalculation(building)}
         min={uiConfig.range[0]}
         max={uiConfig.range[1]}
         step={uiConfig.step}
