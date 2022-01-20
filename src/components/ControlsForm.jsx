@@ -5,12 +5,8 @@ import { ControlGroup } from "./ControlGroup";
 
 export const ControlsForm = () => {
   const { building, setBuilding, floorArea } = useContext(BuildingContext);
-  const {
-    emitBuildingChange,
-    submitBuildingData,
-    cost,
-    serverIsComputingCost,
-  } = useContext(SocketContext);
+  const { emitBuildingChange, submitBuildingData, triggerCostCalculation, cost, serverIsComputingCost } =
+    useContext(SocketContext);
   const [savedConfigurations, setSavedConfigurations] = useState([]);
   const [configurationName, setConfigurationName] = useState("Baseline");
   const [visible, setVisible] = useState(false);
@@ -19,8 +15,7 @@ export const ControlsForm = () => {
     // TODO: Figure out why dereferencing building isn't working and why entries in table seem to get overwritten...
     (e) => {
       setSavedConfigurations((configs) => {
-        const { mass, wwr, shading, hvac, lighting, envelope, glazing } =
-          building;
+        const { mass, wwr, shading, hvac, lighting, envelope, glazing } = building;
         const buildingToSave = {
           mass: { ...mass },
           wwr: { ...wwr },
@@ -30,10 +25,7 @@ export const ControlsForm = () => {
           envelope: { ...envelope },
           glazing: { ...glazing },
         };
-        return [
-          ...configs,
-          { name: configurationName, data: { ...buildingToSave } },
-        ];
+        return [...configs, { name: configurationName, data: { ...buildingToSave } }];
       });
     },
     [building, configurationName, savedConfigurations, setSavedConfigurations]
@@ -48,10 +40,7 @@ export const ControlsForm = () => {
   );
   return (
     <div className="controls-form">
-      <button
-        className="controls-form-expander"
-        onClick={() => setVisible((prev) => !prev)}
-      >
+      <button className="controls-form-expander" onClick={() => setVisible((prev) => !prev)}>
         <div>Configure </div>
         <div>{floorArea.toFixed(0)}m^2</div>
         <div>${serverIsComputingCost || !cost ? "--" : cost}</div>
@@ -75,10 +64,7 @@ export const ControlsForm = () => {
           Save
         </button>
         {savedConfigurations.map((config, i) => (
-          <button
-            onClick={() => recallConfiguration(i)}
-            key={`recall-${config.name}-${i}`}
-          >
+          <button onClick={() => recallConfiguration(i)} key={`recall-${config.name}-${i}`}>
             {config.name}
           </button>
         ))}
