@@ -86,7 +86,12 @@ body,
 
 .controls-form-footer {
   display: flex;
+  flex-direction: column;
   /* width: 20vw; */
+}
+
+.controls-form-footer > * {
+  margin-top: 0.5rem;
 }
 
 .stacked-bar-chart-container {
