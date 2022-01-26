@@ -1,24 +1,9 @@
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import { useContext, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import { SocketContext } from "../context/SocketContext";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 export const StackedBarChart = () => {
   const { results } = useContext(SocketContext);
@@ -89,21 +74,19 @@ export const StackedBarChart = () => {
     },
   };
   const [visible, setVisible] = useState(false);
+
+  const euiSum = data.datasets.reduce(
+    (sum, dataset) => sum + (dataset.data ? dataset.data.reduce((a, b) => a + b,0) : 0),
+    0
+  );
   return (
     <div className="results">
-      <button
-        className="results-expander"
-        onClick={() => setVisible((prev) => !prev)}
-      >
-        Results
+      <button className="results-expander" onClick={() => setVisible((prev) => !prev)}>
+        Results{euiSum ? `: ${euiSum.toFixed(0)}kWh/m^2` : ""}
       </button>
       {visible ? (
         <div className="stacked-bar-chart-container">
-          {results ? (
-            <Bar data={data} options={options} />
-          ) : (
-            <p>No results available yet.</p>
-          )}
+          {results ? <Bar data={data} options={options} /> : <p>No results available yet.</p>}
         </div>
       ) : null}
     </div>
